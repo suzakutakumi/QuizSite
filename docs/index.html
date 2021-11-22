@@ -1,0 +1,32 @@
+<html>
+
+<body>
+    <button id="Start">Start</button>
+    <div id="Answers">
+    </div>
+
+    <script>
+        const Answer=document.getElementById("Answers")
+        document.getElementById("Start").onclick=function(){
+            fetch("/Start",{method:'POST'})
+            setInterval("showAnswers()", 500);
+        }
+        function showAnswers() {
+            fetch("/SendAnswer").then((res)=>{
+                return res.json()
+            }).then((json)=>{
+                let contents=""
+                if(json==null){
+                    return
+                }
+                for(const child of json){
+                    contents+=`${child.name}:${child.content} Time:${child.time}<br>`
+                }
+                Answer.innerHTML=contents;
+            })
+        }
+    </script>
+    
+</body>
+
+</html>
