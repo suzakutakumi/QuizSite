@@ -4,52 +4,53 @@
     <div id="Time"></div><br>
     <input type="text" id="name" />
     <input type="text" id="content" />
-    <input type="submit" id="post"/>
+    <input type="submit" id="post" />
 
     <script>
-        let time,InitFunc,StartFunc,startflg=false
+        let time, InitFunc, StartFunc, startflg = false
         function showTime() {
-            document.getElementById("Time").innerText=String((new Date()-time)/1000)
+            document.getElementById("Time").innerText = String((new Date() - time) / 1000)
         }
-        function StartH(){
-            fetch("/CommonStart").then((res)=>{
+        function StartH() {
+            fetch("/CommonStart").then((res) => {
                 return res.text()
-            }).then((text)=>{
+            }).then((text) => {
                 console.log(text)
-                if(text==="OK"){
-                    startflg=true
+                if (text === "OK") {
+                    startflg = true
                     time = new Date()
-                    StartFunc=setInterval("showTime()",10)
+                    StartFunc = setInterval("showTime()", 10)
                     clearInterval(InitFunc)
                 }
             })
         }
         function start() {
-            InitFunc=setInterval("StartH()", 10);
+            InitFunc = setInterval("StartH()", 100);
         }
-        document.getElementById("post").onclick=function(){
-            if(startflg==false){
+        document.getElementById("post").onclick = function () {
+            if (startflg == false) {
                 return
             }
-            startflg=false
-            let json={
-                "name":document.getElementById("name").value,
-                "content":document.getElementById("content").value,
-                "time":new Date()-time
+            startflg = false
+            let json = {
+                "name": document.getElementById("name").value,
+                "content": document.getElementById("content").value,
+                "time": new Date() - time
             }
             console.log(json)
-            fetch("/GetAnswer",{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
+            fetch("/GetAnswer", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                body:JSON.stringify(json)
+                body: JSON.stringify(json)
+            }).then((res) => {
+                clearInterval(StartFunc)
+                InitFunc = setInterval("StartH()", 100);
             })
-            clearInterval(StartFunc)
-            InitFunc=setInterval("StartH()", 10);
         }
     </script>
-    
+
 </body>
 
 </html>
