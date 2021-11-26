@@ -4,7 +4,7 @@
     <div id="Time"></div><br>
     <input type="text" id="name" />
     <input type="text" id="content" />
-    <input type="submit" id="post" />
+    <button id="post">答える</button>
 
     <script>
         let time, InitFunc, StartFunc, startflg = false
@@ -25,7 +25,7 @@
             })
         }
         function start() {
-            InitFunc = setInterval("StartH()", 100);
+            InitFunc = setInterval("StartH()", 10);
         }
         document.getElementById("post").onclick = function () {
             if (startflg == false) {
@@ -44,10 +44,9 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(json)
-            }).then((res) => {
-                clearInterval(StartFunc)
-                InitFunc = setInterval("StartH()", 100);
             })
+            clearInterval(StartFunc)
+            InitFunc = setInterval("StartH()", 10);
         }
     </script>
 

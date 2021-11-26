@@ -48,7 +48,10 @@
 
 <body>
     <input type="file" id="questionFile" />
+
     <button id="Start">Start</button>
+    <button id="ShowAnswer">答えを表示</button>
+
     <div id="ProblemStatement"></div>
     <br>
     <div id="Answers">
@@ -57,23 +60,30 @@
     <script>
         const Answer = document.getElementById("Answers")
         const file = document.getElementById("questionFile")
+        let showCorrectFlg = false
         let qcnt = 0
+        let ans = ""
         let fileContents = []
         file.onchange = function () {
             let reader = new FileReader();
             reader.readAsText(file.files[0]);
 
-            reader.onload = function (e) {
-                for (const text in reader.result.split(',')) {
-                    fileContents.append(text.split(":"))
+            reader.onload = function (ev) {
+                for (const text of (reader.result).split(',')) {
+                    fileContents.push(text.split(":"))
+
                 }
+                console.log(fileContents)
             }
         }
         document.getElementById("Start").onclick = function () {
             if (file.files.length == 0) {
                 return
             }
-            out(fileContents[qcnt])
+            showCorrectFlg = false
+
+            ans = fileContents[qcnt][1]
+            out(fileContents[qcnt][0])
             qcnt++
             if (fileContents.length == qcnt) {
                 qcnt = 0
@@ -90,10 +100,14 @@
                     return
                 }
                 for (const child of json) {
-                    if (contents == fileContents[qcnt][1]) {
-                        contents += `<div class="correct">${child.name}:${child.content} Time:${child.time}</div><br>`
+                    if (showCorrectFlg == true) {
+                        if (child.content == ans) {
+                            contents += `<div class="correct">${child.name}:${child.content} Time:${child.time}</div><br>`
+                        } else {
+                            contents += `<div class="incorrect">${child.name}:${child.content} Time:${child.time}</div><br>`
+                        }
                     } else {
-                        contents += `<div class="incorrect">${child.name}:${child.content} Time:${child.time}</div><br>`
+                        contents += `<div>${child.name}:${child.content} Time:${child.time}</div><br>`
                     }
                 }
                 Answer.innerHTML = contents;
@@ -110,11 +124,15 @@
             questionContent.innerHTML = ""
             set = setInterval(function () {
                 questionContent.innerHTML += str[cnt]
-                cnt++
+                cnt += 1
                 if (cnt >= str.length) {
                     clearInterval(set)
                 }
             }, TIME);
+        }
+
+        document.getElementById("ShowAnswer").onclick = function () {
+            showCorrectFlg = true
         }
     </script>
 
