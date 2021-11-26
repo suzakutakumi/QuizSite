@@ -2,9 +2,20 @@
 
 <head>
     <style>
-        #Start {
-            padding: 1.5em 2.5em;
-            margin-right: 50%;
+        #questionFile {
+            display: none;
+        }
+        
+        #ButtonBox {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        #questionView,#Start,#ShowAnswer {
+            padding: 1.5em 4.5em;
+            margin-right: 5%;
             margin-top: 10%;
             margin-bottom: 10%;
             text-decoration: none;
@@ -18,12 +29,12 @@
             transition: all 0.2s;
         }
 
-        #Start:hover {
+        #questionView:hover,#Start:hover,#ShowAnswer:hover {
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.58);
             transform: translateY(-2px);
         }
 
-        #Start:active {
+        #questionView:active,#Start:active,#ShowAnswer:active {
             box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
             transform: translateY(2px);
         }
@@ -31,6 +42,8 @@
         #Answers {
             padding: 1.5em 2.5em;
             margin-bottom: 1%;
+            margin-left: 5%;
+            margin-right: 5%;
             text-decoration: none;
             background: #f7f7f7;
             border-left: solid 6px #ff7c5c;
@@ -40,21 +53,39 @@
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
         }
 
+        .correct{
+            color:white;
+            background-color: #ff7c5c;
+        }
+        .incorrect{
+            color: white;
+            background-color: gray;
+        }
+        .answer_contents{
+            margin-bottom: 0.5em;
+        }
+
         body {
             text-align: center;
+            background-color:lightgray;
         }
     </style>
 </head>
 
 <body>
-    <input type="file" id="questionFile" />
-
-    <button id="Start">Start</button>
-    <button id="ShowAnswer">答えを表示</button>
+    <div id="ButtonBox">
+        <label id="questionView">
+            問題選択
+            <input type="file" id="questionFile" />
+        </label>
+        <button id="Start">開始</button>
+        <button id="ShowAnswer">答えを表示</button>
+    </div>
 
     <div id="ProblemStatement"></div>
     <br>
     <div id="Answers">
+        
     </div>
 
     <script>
@@ -102,12 +133,12 @@
                 for (const child of json) {
                     if (showCorrectFlg == true) {
                         if (child.content == ans) {
-                            contents += `<div class="correct">${child.name}:${child.content} Time:${child.time}</div><br>`
+                            contents += `<div class="correct answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
                         } else {
-                            contents += `<div class="incorrect">${child.name}:${child.content} Time:${child.time}</div><br>`
+                            contents += `<div class="incorrect answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
                         }
                     } else {
-                        contents += `<div>${child.name}:${child.content} Time:${child.time}</div><br>`
+                        contents += `<div class="answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
                     }
                 }
                 Answer.innerHTML = contents;
