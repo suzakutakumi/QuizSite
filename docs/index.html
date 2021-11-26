@@ -133,12 +133,12 @@
                 for (const child of json) {
                     if (showCorrectFlg == true) {
                         if (child.content == ans) {
-                            contents += `<div class="correct answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
+                            contents += `<div class="correct answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
                         } else {
-                            contents += `<div class="incorrect answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
+                            contents += `<div class="incorrect answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
                         }
                     } else {
-                        contents += `<div class="answer_contents">${child.name}:${child.content} Time:${child.time}</div><br>`
+                        contents += `<div class="answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
                     }
                 }
                 Answer.innerHTML = contents;
