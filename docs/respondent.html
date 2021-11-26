@@ -19,13 +19,13 @@
                 if (text === "OK") {
                     startflg = true
                     time = new Date()
-                    StartFunc = setInterval("showTime()", 10)
+                    StartFunc = setInterval("showTime()", 100)
                     clearInterval(InitFunc)
                 }
             })
         }
         function start() {
-            InitFunc = setInterval("StartH()", 10);
+            InitFunc = setInterval("StartH()", 100);
         }
         document.getElementById("post").onclick = function () {
             if (startflg == false) {
@@ -44,9 +44,10 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(json)
+            }).then((res) => {
+                clearInterval(StartFunc)
+                InitFunc = setInterval("StartH()", 100);
             })
-            clearInterval(StartFunc)
-            InitFunc = setInterval("StartH()", 10);
         }
     </script>
 
