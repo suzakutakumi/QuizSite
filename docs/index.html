@@ -5,7 +5,7 @@
         #questionFile {
             display: none;
         }
-        
+
         #ButtonBox {
             display: flex;
             flex-direction: row;
@@ -13,7 +13,10 @@
             justify-content: center;
             width: 100%;
         }
-        #questionView,#Start,#ShowAnswer {
+
+        #questionView,
+        #Start,
+        #ShowAnswer {
             padding: 1.5em 4.5em;
             margin-right: 5%;
             margin-top: 10%;
@@ -29,12 +32,16 @@
             transition: all 0.2s;
         }
 
-        #questionView:hover,#Start:hover,#ShowAnswer:hover {
+        #questionView:hover,
+        #Start:hover,
+        #ShowAnswer:hover {
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.58);
             transform: translateY(-2px);
         }
 
-        #questionView:active,#Start:active,#ShowAnswer:active {
+        #questionView:active,
+        #Start:active,
+        #ShowAnswer:active {
             box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
             transform: translateY(2px);
         }
@@ -53,21 +60,23 @@
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
         }
 
-        .correct{
-            color:white;
+        .correct {
+            color: white;
             background-color: #ff7c5c;
         }
-        .incorrect{
+
+        .incorrect {
             color: white;
             background-color: gray;
         }
-        .answer_contents{
+
+        .answer_contents {
             margin-bottom: 0.5em;
         }
 
         body {
             text-align: center;
-            background-color:lightgray;
+            background-color: lightgray;
         }
     </style>
 </head>
@@ -85,7 +94,7 @@
     <div id="ProblemStatement"></div>
     <br>
     <div id="Answers">
-        
+
     </div>
 
     <script>
@@ -133,12 +142,12 @@
                 for (const child of json) {
                     if (showCorrectFlg == true) {
                         if (child.content == ans) {
-                            contents += `<div class="correct answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
+                            contents += `<div class="correct answer_contents">${child.name}:${child.content} Time:${child.time / 1000}s</div><br>`
                         } else {
-                            contents += `<div class="incorrect answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
+                            contents += `<div class="incorrect answer_contents">${child.name}:${child.content} Time:${child.time / 1000}s</div><br>`
                         }
                     } else {
-                        contents += `<div class="answer_contents">${child.name}:${child.content} Time:${child.time/1000}s</div><br>`
+                        contents += `<div class="answer_contents">${child.name}:${child.content} Time:${child.time / 1000}s</div><br>`
                     }
                 }
                 Answer.innerHTML = contents;
@@ -154,7 +163,11 @@
             clearInterval(set)
             questionContent.innerHTML = ""
             set = setInterval(function () {
-                questionContent.innerHTML += str[cnt]
+                if (str[cnt] == "_") {
+                    questionContent.innerHTML += "_"
+                } else {
+                    questionContent.innerHTML += str[cnt]
+                }
                 cnt += 1
                 if (cnt >= str.length) {
                     clearInterval(set)
